@@ -4,9 +4,12 @@ import './App.css'
 
 function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   const [cookyScreen, setCookyScreen] = useState(0);
+  const [sparks, setSparks] = useState<{ id: number; top: string; left: string }[]>([]);
   const projects = [
     {
       title: "Construction Helper",
@@ -47,13 +50,54 @@ function App() {
   ];
 
   useEffect(() => {
+    // Lightning Sparks Logic
+    if (isHovering) {
+      const interval = setInterval(() => {
+        setSparks(prev => [...prev.slice(-10), {
+          id: Date.now(),
+          top: `${Math.random() * 100}%`,
+          left: `${Math.random() * 100}%`
+        }]);
+      }, 100);
+      return () => clearInterval(interval);
+    } else {
+      setSparks([]);
+    }
+  }, [isHovering]);
+
+  useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({
         x: (e.clientX / window.innerWidth - 0.5) * 20,
         y: (e.clientY / window.innerHeight - 0.5) * 20,
       });
+      // Delay cursor for trailing effect
+      setCursorPos({ x: e.clientX, y: e.clientY });
     };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('a, button, .project-card, .glass-card')) {
+        setIsHovering(true);
+      } else {
+        setIsHovering(false);
+      }
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseover', handleMouseOver);
+
+    // Scroll Reveal Logic
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(reveal => observer.observe(reveal));
 
     // Screen cycling for Cooky App
     const screenInterval = setInterval(() => {
@@ -62,12 +106,64 @@ function App() {
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
+      reveals.forEach(reveal => observer.unobserve(reveal));
       clearInterval(screenInterval);
     };
   }, []);
 
   return (
     <div className="portfolio">
+      <div className="zenitsu-pattern"></div>
+
+      {/* JARVIS HUD */}
+      <div className="hud-status">
+        <div className="hud-line">System: JARVIS Online</div>
+        <div className="hud-line">Status: Sreejesh OS V2.0</div>
+        <div className="hud-line">Integrity: 100%</div>
+        <div className="hud-line">Energy level: Optimal</div>
+      </div>
+
+      {/* Iron Man Arc Reactor */}
+      <div className="arc-reactor-container">
+        <div className="arc-reactor">
+          <div className="arc-rings"></div>
+          <div className="arc-center"></div>
+        </div>
+      </div>
+
+      {/* Zenitsu Lightning Sparks */}
+      <div className="lightning-container">
+        {sparks.map(spark => (
+          <div
+            key={spark.id}
+            className="spark"
+            style={{ top: spark.top, left: spark.left, height: `${Math.random() * 40 + 20}px` }}
+          ></div>
+        ))}
+      </div>
+
+      <div
+        className={`custom-cursor ${isHovering ? 'hover' : ''}`}
+        style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
+      ></div>
+      <div
+        className="cursor-dot"
+        style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
+      ></div>
+
+      {/* Navigation Bar */}
+      <nav className="glass-nav">
+        <div className="nav-container">
+          <div className="nav-logo">Sreejesh <span className="title-gradient">OS</span></div>
+          <ul className="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
       {/* 3D Phone Modal Overlay */}
       {selectedProject !== null && (
         <div className="phone-overlay" onClick={() => setSelectedProject(null)}>
@@ -118,10 +214,20 @@ function App() {
             <a href="#contact" className="btn btn-secondary">Hire Me</a>
           </div>
         </div>
+        <div className="scroll-indicator">
+          <div className="mouse">
+            <div className="wheel"></div>
+          </div>
+          <div className="arrows">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
       </section>
 
       {/* About Section */}
-      <section id="about">
+      <section id="about" className="reveal">
         <h2 className="title-gradient" style={{ fontSize: '2.5rem', marginBottom: '30px' }}>About Me</h2>
         <div className="glass-card">
           <p style={{ fontSize: '1.2rem', color: 'var(--text-main)', lineHeight: '1.8' }}>
@@ -136,7 +242,7 @@ function App() {
       </section>
 
       {/* Skills & Expertise */}
-      <section id="skills">
+      <section id="skills" className="reveal">
         <h2 className="title-gradient" style={{ fontSize: '2.5rem', marginBottom: '40px' }}>Technical Arsenal</h2>
         <div className="skills-grid">
           {/* Frontend Card */}
@@ -189,10 +295,23 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* Tech Stack Ticker */}
+        <div className="tech-ticker">
+          <div className="tech-ticker-content">
+            {['Flutter', 'Dart', 'Node.js', 'MongoDB', 'Firebase', 'BLoC', 'Riverpod', 'Provider', 'JARVIS', 'Arc Reactor', 'Thunder Breathing', 'CI/CD', 'Clean Architecture', 'Git', 'REST API'].map((tech, i) => (
+              <span key={i} className="tech-ticker-item">{tech}</span>
+            ))}
+            {/* Duplicate for seamless loop */}
+            {['Flutter', 'Dart', 'Node.js', 'MongoDB', 'Firebase', 'BLoC', 'Riverpod', 'Provider', 'JARVIS', 'Arc Reactor', 'Thunder Breathing', 'CI/CD', 'Clean Architecture', 'Git', 'REST API'].map((tech, i) => (
+              <span key={i + 100} className="tech-ticker-item">{tech}</span>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Services Section */}
-      <section id="services">
+      <section id="services" className="reveal">
         <h2 className="title-gradient" style={{ fontSize: '2.5rem', marginBottom: '40px' }}>What I Offer</h2>
         <div className="skills-grid">
           <div className="glass-card">
@@ -226,7 +345,7 @@ function App() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience">
+      <section id="experience" className="reveal">
         <h2 className="title-gradient" style={{ fontSize: '2.5rem', marginBottom: '30px' }}>Professional Journey</h2>
         <div className="timeline">
           <div className="timeline-item">
@@ -257,7 +376,7 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects">
+      <section id="projects" className="reveal">
         <h2 className="title-gradient" style={{ fontSize: '2.5rem', marginBottom: '10px' }}>Selected Projects</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: '50px' }}>Touch a project to see the 3D demo.</p>
 
@@ -296,7 +415,7 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact">
+      <section id="contact" className="reveal">
         <h2 className="title-gradient" style={{ fontSize: '2.5rem', marginBottom: '30px' }}>Get In Touch</h2>
         <div className="contact-container">
           <div className="contact-info">
