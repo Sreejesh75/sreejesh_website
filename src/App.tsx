@@ -118,10 +118,10 @@ function App() {
 
       {/* JARVIS HUD */}
       <div className="hud-status">
-        <div className="hud-line">System: JARVIS Online</div>
-        <div className="hud-line">Status: Sreejesh OS V2.0</div>
-        <div className="hud-line">Integrity: 100%</div>
-        <div className="hud-line">Energy level: Optimal</div>
+        <div className="hud-line">SYSTEM: JARVIS ONLINE</div>
+        <div className="hud-line">PROTOCOLS: ACTIVE</div>
+        <div className="hud-line">THUNDER BREATHING: CHARGED</div>
+        <div className="hud-line">STARK INDUSTRIES V10.4</div>
       </div>
 
       {/* Iron Man Arc Reactor */}
@@ -186,7 +186,9 @@ function App() {
           </div>
           <div style={{ position: 'absolute', bottom: '50px', textAlign: 'center', width: '100%' }}>
             <h2 className="title-gradient">{projects[selectedProject].title}</h2>
-            <p style={{ color: '#fff', marginTop: '10px' }}>Playing Project Demo...</p>
+            <p style={{ color: 'var(--arc-blue)', marginTop: '10px', fontFamily: 'monospace', letterSpacing: '2px' }}>
+              JARVIS: INITIALIZING HOLOGRAPHIC SIMULATION...
+            </p>
           </div>
         </div>
       )}
@@ -238,6 +240,9 @@ function App() {
             production-ready apps featuring state management with <strong>Provider, Riverpod, GetX, and Bloc</strong>.
             Strong problem-solving skills and a passion for delivering user-focused, high-performance mobile solutions.
           </p>
+          <div style={{ marginTop: '20px', borderTop: '1px solid var(--glass-border)', paddingTop: '15px', fontStyle: 'italic', color: 'var(--arc-blue)', fontFamily: 'monospace' }}>
+            "Sometimes you gotta run before you can walk." — Tony Stark
+          </div>
         </div>
       </section>
 
@@ -408,7 +413,7 @@ function App() {
                   <span key={tag} className="skill-tag">{tag}</span>
                 ))}
               </div>
-              <div className="project-hint">Click to interact with 3D Demo</div>
+              <div className="project-hint">Thunder Breathing: First Form - Click to Flash</div>
             </div>
           ))}
         </div>
