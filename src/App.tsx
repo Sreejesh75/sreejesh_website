@@ -9,6 +9,7 @@ function App() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   const [cookyScreen, setCookyScreen] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const projects = [
     {
       title: "Construction Helper",
@@ -70,6 +71,22 @@ function App() {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
 
+    // Escape Key to close Modal
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedProject(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Scroll Progress Bar
+    const handleScroll = () => {
+      const scrollPx = document.documentElement.scrollTop;
+      const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      setScrollProgress(scrollPx / winHeightPx);
+    };
+    window.addEventListener('scroll', handleScroll);
+
     // Scroll Reveal Logic
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -90,6 +107,8 @@ function App() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleScroll);
       reveals.forEach(reveal => observer.unobserve(reveal));
       clearInterval(screenInterval);
     };
@@ -97,6 +116,10 @@ function App() {
 
   return (
     <div className="portfolio">
+      <div
+        className="scroll-progress-bar"
+        style={{ transform: `scaleX(${scrollProgress})` }}
+      ></div>
 
       {/* Glowing Diamond */}
       <div className="diamond-container">
@@ -162,7 +185,7 @@ function App() {
           <div className="float-item item-3"></div>
         </div>
         <div
-          className="container"
+          className="container hero-content"
           style={{
             position: 'relative',
             zIndex: 1,
@@ -170,11 +193,18 @@ function App() {
             transition: 'transform 0.1s ease-out'
           }}
         >
-          <h1 className="hero-name">Sreejesh <span className="title-gradient">OS</span></h1>
-          <p className="hero-tagline">Software Engineer building high-performance mobile and web solutions with Flutter & Node.js.</p>
-          <div className="cta-buttons">
-            <a href="#projects" className="btn btn-primary">View Projects</a>
-            <a href="#contact" className="btn btn-secondary">Hire Me</a>
+          <div className="hero-text-section">
+            <h1 className="hero-name">Sreejesh <span className="title-gradient">OS</span></h1>
+            <p className="hero-tagline">Software Engineer building high-performance mobile and web solutions with Flutter & Node.js.</p>
+            <div className="cta-buttons">
+              <a href="#projects" className="btn btn-primary">View Projects</a>
+              <a href="#contact" className="btn btn-secondary">Hire Me</a>
+            </div>
+          </div>
+
+          <div className="hero-image-section">
+            <div className="hero-image-backdrop"></div>
+            <img src="/hero_avathar.jpeg" alt="Sreejesh OS" className="hero-shape-image" />
           </div>
         </div>
         <div className="scroll-indicator">
