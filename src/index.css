@@ -490,149 +490,73 @@ section {
   }
 }
 
-/* Iron Man - Arc Reactor */
-.arc-reactor-container {
+/* Glowing Diamond */
+.diamond-container {
   position: fixed;
-  top: 100px;
-  right: 40px;
-  width: 100px;
-  height: 100px;
+  top: 120px;
+  right: 60px;
+  width: 60px;
+  height: 60px;
   z-index: 100;
-  opacity: 0.8;
   pointer-events: none;
+  animation: floatDiamond 4s ease-in-out infinite;
 }
 
-.arc-reactor {
+.glowing-diamond {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--arc-blue) 0%, rgba(125, 249, 255, 0.2) 50%, transparent 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 20px var(--arc-blue), inset 0 0 15px var(--arc-blue);
-  animation: arcPulse 4s infinite ease-in-out;
-  border: 2px solid rgba(125, 249, 255, 0.3);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  transform: rotate(45deg);
+  box-shadow: 0 0 20px var(--primary), 0 0 40px var(--secondary);
+  animation: pulseDiamond 2s alternate infinite;
+  border-radius: 8px;
 }
 
-.arc-rings {
-  width: 85%;
-  height: 85%;
-  border-radius: 50%;
-  border: 2px dashed var(--arc-blue);
-  animation: rotateArc 10s linear infinite;
+.glowing-diamond-shadow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: var(--primary);
+  filter: blur(40px);
+  opacity: 0.4;
+  animation: pulseDiamondShadow 2s alternate infinite;
 }
 
-.arc-center {
-  width: 30%;
-  height: 30%;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 15px #fff;
-}
-
-@keyframes arcPulse {
+@keyframes floatDiamond {
 
   0%,
   100% {
-    transform: scale(1);
-    opacity: 0.7;
+    transform: translateY(0);
   }
 
   50% {
-    transform: scale(1.05);
-    opacity: 1;
+    transform: translateY(-20px);
   }
 }
 
-@keyframes rotateArc {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Zenitsu - Lightning Spark */
-.lightning-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 5;
-  overflow: hidden;
-}
-
-.spark {
-  position: absolute;
-  background: var(--zenitsu-yellow);
-  width: 2px;
-  height: 30px;
-  opacity: 0;
-  filter: blur(1px);
-}
-
-/* Zenitsu Pattern Overlay */
-.zenitsu-pattern {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    linear-gradient(135deg, rgba(249, 215, 28, 0.03) 25%, transparent 25%),
-    linear-gradient(225deg, rgba(249, 215, 28, 0.03) 25%, transparent 25%),
-    linear-gradient(45deg, rgba(249, 215, 28, 0.03) 25%, transparent 25%),
-    linear-gradient(315deg, rgba(249, 215, 28, 0.03) 25%, transparent 25%);
-  background-size: 60px 60px;
-  background-position: 30px 0, 30px 0, 0 0, 0 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Status HUD - Jarvis Style */
-.hud-status {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  font-family: 'monospace';
-  font-size: 0.65rem;
-  color: var(--arc-blue);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  z-index: 100;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 12px;
-  border-left: 3px solid var(--arc-blue);
-  backdrop-filter: blur(8px);
-  border-radius: 0 4px 4px 0;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
-.hud-line {
-  margin-bottom: 6px;
-  white-space: nowrap;
-  animation: typing 4s steps(40, end) infinite;
-}
-
-@keyframes typing {
-  from {
-    width: 0;
-    opacity: 0;
-  }
-
-  5%,
-  95% {
-    width: 100%;
-    opacity: 1;
+@keyframes pulseDiamond {
+  0% {
+    box-shadow: 0 0 20px var(--primary), 0 0 30px var(--secondary);
+    opacity: 0.8;
   }
 
   100% {
-    width: 0;
-    opacity: 0;
+    box-shadow: 0 0 40px var(--primary), 0 0 60px var(--secondary);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseDiamondShadow {
+  0% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0.8);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) rotate(45deg) scale(1.1);
   }
 }

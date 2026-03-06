@@ -9,7 +9,6 @@ function App() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   const [cookyScreen, setCookyScreen] = useState(0);
-  const [sparks, setSparks] = useState<{ id: number; top: string; left: string }[]>([]);
   const projects = [
     {
       title: "Construction Helper",
@@ -48,22 +47,6 @@ function App() {
       screens: ["/qr.png", "/qr.png", "/qr.png"]
     }
   ];
-
-  useEffect(() => {
-    // Lightning Sparks Logic
-    if (isHovering) {
-      const interval = setInterval(() => {
-        setSparks(prev => [...prev.slice(-10), {
-          id: Date.now(),
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`
-        }]);
-      }, 100);
-      return () => clearInterval(interval);
-    } else {
-      setSparks([]);
-    }
-  }, [isHovering]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -114,33 +97,11 @@ function App() {
 
   return (
     <div className="portfolio">
-      <div className="zenitsu-pattern"></div>
 
-      {/* JARVIS HUD */}
-      <div className="hud-status">
-        <div className="hud-line">SYSTEM: JARVIS ONLINE</div>
-        <div className="hud-line">PROTOCOLS: ACTIVE</div>
-        <div className="hud-line">THUNDER BREATHING: CHARGED</div>
-        <div className="hud-line">STARK INDUSTRIES V10.4</div>
-      </div>
-
-      {/* Iron Man Arc Reactor */}
-      <div className="arc-reactor-container">
-        <div className="arc-reactor">
-          <div className="arc-rings"></div>
-          <div className="arc-center"></div>
-        </div>
-      </div>
-
-      {/* Zenitsu Lightning Sparks */}
-      <div className="lightning-container">
-        {sparks.map(spark => (
-          <div
-            key={spark.id}
-            className="spark"
-            style={{ top: spark.top, left: spark.left, height: `${Math.random() * 40 + 20}px` }}
-          ></div>
-        ))}
+      {/* Glowing Diamond */}
+      <div className="diamond-container">
+        <div className="glowing-diamond"></div>
+        <div className="glowing-diamond-shadow"></div>
       </div>
 
       <div
@@ -186,8 +147,8 @@ function App() {
           </div>
           <div style={{ position: 'absolute', bottom: '50px', textAlign: 'center', width: '100%' }}>
             <h2 className="title-gradient">{projects[selectedProject].title}</h2>
-            <p style={{ color: 'var(--arc-blue)', marginTop: '10px', fontFamily: 'monospace', letterSpacing: '2px' }}>
-              JARVIS: INITIALIZING HOLOGRAPHIC SIMULATION...
+            <p style={{ color: 'var(--primary)', marginTop: '10px', fontFamily: 'monospace', letterSpacing: '2px' }}>
+              INITIALIZING PROJECT PREVIEW...
             </p>
           </div>
         </div>
@@ -240,8 +201,8 @@ function App() {
             production-ready apps featuring state management with <strong>Provider, Riverpod, GetX, and Bloc</strong>.
             Strong problem-solving skills and a passion for delivering user-focused, high-performance mobile solutions.
           </p>
-          <div style={{ marginTop: '20px', borderTop: '1px solid var(--glass-border)', paddingTop: '15px', fontStyle: 'italic', color: 'var(--arc-blue)', fontFamily: 'monospace' }}>
-            "Sometimes you gotta run before you can walk." — Tony Stark
+          <div style={{ marginTop: '20px', borderTop: '1px solid var(--glass-border)', paddingTop: '15px', fontStyle: 'italic', color: 'var(--primary)', fontFamily: 'monospace' }}>
+            "Designing logic, building experiences."
           </div>
         </div>
       </section>
@@ -304,11 +265,11 @@ function App() {
         {/* Tech Stack Ticker */}
         <div className="tech-ticker">
           <div className="tech-ticker-content">
-            {['Flutter', 'Dart', 'Node.js', 'MongoDB', 'Firebase', 'BLoC', 'Riverpod', 'Provider', 'JARVIS', 'Arc Reactor', 'Thunder Breathing', 'CI/CD', 'Clean Architecture', 'Git', 'REST API'].map((tech, i) => (
+            {['Flutter', 'Dart', 'Node.js', 'MongoDB', 'Firebase', 'BLoC', 'Riverpod', 'Provider', 'TypeScript', 'React', 'Next.js', 'CI/CD', 'Clean Architecture', 'Git', 'REST API'].map((tech, i) => (
               <span key={i} className="tech-ticker-item">{tech}</span>
             ))}
             {/* Duplicate for seamless loop */}
-            {['Flutter', 'Dart', 'Node.js', 'MongoDB', 'Firebase', 'BLoC', 'Riverpod', 'Provider', 'JARVIS', 'Arc Reactor', 'Thunder Breathing', 'CI/CD', 'Clean Architecture', 'Git', 'REST API'].map((tech, i) => (
+            {['Flutter', 'Dart', 'Node.js', 'MongoDB', 'Firebase', 'BLoC', 'Riverpod', 'Provider', 'TypeScript', 'React', 'Next.js', 'CI/CD', 'Clean Architecture', 'Git', 'REST API'].map((tech, i) => (
               <span key={i + 100} className="tech-ticker-item">{tech}</span>
             ))}
           </div>
@@ -413,7 +374,7 @@ function App() {
                   <span key={tag} className="skill-tag">{tag}</span>
                 ))}
               </div>
-              <div className="project-hint">Thunder Breathing: First Form - Click to Flash</div>
+              <div className="project-hint">Click to view 3D interactive demo</div>
             </div>
           ))}
         </div>
