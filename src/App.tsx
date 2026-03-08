@@ -21,7 +21,8 @@ function App() {
         "Professional Dashboard for high-level project overview."
       ],
       tags: ["Flutter", "Node.js", "MongoDB", "BLoC", "Dio"],
-      screens: ["/construction.png", "/construction.png", "/construction.png"]
+      screens: ["/first.png", "/second.png", "/third.png", "/fourth.png"],
+      is3D: false
     },
     {
       title: "Cooky – Recipe App",
@@ -99,9 +100,9 @@ function App() {
 
     reveals.forEach(reveal => observer.observe(reveal));
 
-    // Screen cycling for Cooky App
+    // Screen cycling for Apps
     const screenInterval = setInterval(() => {
-      setCookyScreen((prev) => (prev + 1) % 3);
+      setCookyScreen((prev) => prev + 1);
     }, 3000);
 
     return () => {
@@ -148,26 +149,38 @@ function App() {
           </ul>
         </div>
       </nav>
-      {/* 3D Phone Modal Overlay */}
+      {/* Modal Overlay */}
       {selectedProject !== null && (
         <div className="phone-overlay" onClick={() => setSelectedProject(null)}>
           <div className="close-overlay">&times;</div>
-          <div className="phone-3d-wrapper" onClick={(e) => e.stopPropagation()}>
-            <div className="phone-3d">
-              <div className="phone-face phone-front">
-                <div className="phone-notch"></div>
-                <div className="phone-screen">
-                  <img src={projects[selectedProject].screens[cookyScreen]} alt="App Screen" />
-                  <div className="phone-reflection"></div>
+
+          {projects[selectedProject].is3D !== false ? (
+            <div className="phone-3d-wrapper" onClick={(e) => e.stopPropagation()}>
+              <div className="phone-3d">
+                <div className="phone-face phone-front">
+                  <div className="phone-notch"></div>
+                  <div className="phone-screen">
+                    <img src={projects[selectedProject].screens[cookyScreen % projects[selectedProject].screens.length]} alt="App Screen" />
+                    <div className="phone-reflection"></div>
+                  </div>
                 </div>
+                <div className="phone-face phone-back"></div>
+                <div className="phone-side phone-side-left"></div>
+                <div className="phone-side phone-side-right"></div>
+                <div className="phone-top-bottom phone-top"></div>
+                <div className="phone-top-bottom phone-bottom"></div>
               </div>
-              <div className="phone-face phone-back"></div>
-              <div className="phone-side phone-side-left"></div>
-              <div className="phone-side phone-side-right"></div>
-              <div className="phone-top-bottom phone-top"></div>
-              <div className="phone-top-bottom phone-bottom"></div>
             </div>
-          </div>
+          ) : (
+            <div className="simple-image-wrapper" onClick={(e) => e.stopPropagation()}>
+              <img
+                src={projects[selectedProject].screens[cookyScreen % projects[selectedProject].screens.length]}
+                alt="App Screen"
+                className="simple-modal-image"
+              />
+            </div>
+          )}
+
           <div style={{ position: 'absolute', bottom: '50px', textAlign: 'center', width: '100%' }}>
             <h2 className="title-gradient">{projects[selectedProject].title}</h2>
             <p style={{ color: 'var(--primary)', marginTop: '10px', fontFamily: 'monospace', letterSpacing: '2px' }}>
@@ -374,7 +387,7 @@ function App() {
       {/* Projects Section */}
       <section id="projects" className="reveal">
         <h2 className="title-gradient" style={{ fontSize: '2.5rem', marginBottom: '10px' }}>Selected Projects</h2>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '50px' }}>Touch a project to see the 3D demo.</p>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '50px' }}>Click a project to view the interactive demo or gallery.</p>
 
         <div className="projects-grid">
           {projects.map((project, index) => (
@@ -404,7 +417,9 @@ function App() {
                   <span key={tag} className="skill-tag">{tag}</span>
                 ))}
               </div>
-              <div className="project-hint">Click to view 3D interactive demo</div>
+              <div className="project-hint">
+                {project.is3D !== false ? 'Click to view 3D interactive demo' : 'Click to view project gallery'}
+              </div>
             </div>
           ))}
         </div>
