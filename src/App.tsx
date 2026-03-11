@@ -3,13 +3,9 @@ import './App.css'
 
 
 function App() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   const [cookyScreen, setCookyScreen] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const projects = [
     {
       title: "Construction Helper",
@@ -52,20 +48,34 @@ function App() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-      // Delay cursor for trailing effect
-      setCursorPos({ x: e.clientX, y: e.clientY });
+      // Direct DOM updates to avoid React re-renders on every pixel move
+      const heroContent = document.querySelector('.hero-content') as HTMLElement | null;
+      if (heroContent) {
+        heroContent.style.transform = `translate(${(e.clientX / window.innerWidth - 0.5) * 20}px, ${(e.clientY / window.innerHeight - 0.5) * 20}px)`;
+      }
+
+      const customCursor = document.querySelector('.custom-cursor') as HTMLElement | null;
+      if (customCursor) {
+        customCursor.style.left = `${e.clientX}px`;
+        customCursor.style.top = `${e.clientY}px`;
+      }
+
+      const cursorDot = document.querySelector('.cursor-dot') as HTMLElement | null;
+      if (cursorDot) {
+        cursorDot.style.left = `${e.clientX}px`;
+        cursorDot.style.top = `${e.clientY}px`;
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.closest('a, button, .project-card, .glass-card')) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
+      const customCursor = document.querySelector('.custom-cursor') as HTMLElement | null;
+      if (customCursor) {
+        if (target.closest('a, button, .project-card, .glass-card, .hero-name')) {
+          customCursor.classList.add('hover');
+        } else {
+          customCursor.classList.remove('hover');
+        }
       }
     };
 
@@ -84,7 +94,10 @@ function App() {
     const handleScroll = () => {
       const scrollPx = document.documentElement.scrollTop;
       const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      setScrollProgress(scrollPx / winHeightPx);
+      const scrollProgressElement = document.querySelector('.scroll-progress-bar') as HTMLElement | null;
+      if (scrollProgressElement) {
+        scrollProgressElement.style.transform = `scaleX(${scrollPx / winHeightPx})`;
+      }
     };
     window.addEventListener('scroll', handleScroll);
 
@@ -117,10 +130,7 @@ function App() {
 
   return (
     <div className="portfolio">
-      <div
-        className="scroll-progress-bar"
-        style={{ transform: `scaleX(${scrollProgress})` }}
-      ></div>
+      <div className="scroll-progress-bar" style={{ transform: `scaleX(0)` }}></div>
 
       {/* Glowing Diamond */}
       <div className="diamond-container">
@@ -129,12 +139,12 @@ function App() {
       </div>
 
       <div
-        className={`custom-cursor ${isHovering ? 'hover' : ''}`}
-        style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
+        className="custom-cursor"
+        style={{ left: `20px`, top: `20px` }}
       ></div>
       <div
         className="cursor-dot"
-        style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
+        style={{ left: `20px`, top: `20px` }}
       ></div>
 
       {/* Navigation Bar */}
@@ -202,7 +212,7 @@ function App() {
           style={{
             position: 'relative',
             zIndex: 1,
-            transform: `translate(${mousePos.x}px, ${mousePos.y}px)`,
+            transform: `translate(0px, 0px)`,
             transition: 'transform 0.1s ease-out'
           }}
         >

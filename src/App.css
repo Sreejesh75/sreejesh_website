@@ -100,7 +100,7 @@
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, background 0.3s;
+  transition: width 0.3s, height 0.3s, background 0.3s, left 0.15s ease-out, top 0.15s ease-out;
 }
 
 .cursor-dot {
