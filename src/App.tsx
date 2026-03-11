@@ -217,7 +217,7 @@ function App() {
 
           <div className="hero-image-section">
             <div className="hero-image-backdrop"></div>
-            <img src="/hero_avathar.jpeg" alt="Sreejesh OS" className="hero-shape-image" />
+            {/* <img src="/hero_avathar.jpeg" alt="Sreejesh OS" className="hero-shape-image" /> */}
           </div>
         </div>
         <div className="scroll-indicator">
