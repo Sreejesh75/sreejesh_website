@@ -1,152 +1,110 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
+const projects = [
+  {
+    title: "Construction Helper",
+    repo: "https://github.com/Sreejesh75/Construction_Helper-.git",
+    description: [
+      "Create & Track projects with real-time budget monitoring.",
+      "Categorized Inventory management (Cement, Steel, Bricks).",
+      "Secure Digital Document Storage for Blueprints & Permits.",
+      "Professional Dashboard for high-level project overview."
+    ],
+    tags: ["Flutter", "Node.js", "MongoDB", "BLoC", "Dio"],
+    screens: ["/first.png", "/second.png", "/third.png", "/fourth.png"],
+    is3D: false
+  },
+  {
+    title: "Cooky – Recipe App",
+    repo: "https://github.com/Sreejesh75/Recipe_app.git",
+    description: [
+      "Animated Onboarding flow with premium Lottie animations.",
+      "Daily Meal recommendations with interactive zoom effects.",
+      "Live integration with TheMealDB REST API for global recipes.",
+      "State Management via Provider for reactive UI updates."
+    ],
+    tags: ["Flutter 3.x", "Provider", "Lottie", "REST API", "State Management"],
+    screens: ["/recipe.png", "/recipe.png", "/recipe.png"]
+  },
+  {
+    title: "UPI QR Scanner & Gen",
+    repo: "https://github.com/Sreejesh75/qr_scanner_app.git",
+    description: [
+      "High-performance QR scanning with instant data extraction.",
+      "Custom UPI QR code generation for personalized payments.",
+      "Separation of concerns using Clean Architecture principles.",
+      "Local data persistence using Shared Preferences."
+    ],
+    tags: ["Flutter", "Riverpod", "Clean Architecture", "Mobile Scanner", "Shared Prefs"],
+    screens: ["/qr.png", "/qr.png", "/qr.png"]
+  }
+];
 
 function App() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-
   const [cookyScreen, setCookyScreen] = useState(0);
-  const projects = [
-    {
-      title: "Construction Helper",
-      repo: "https://github.com/Sreejesh75/Construction_Helper-.git",
-      description: [
-        "Create & Track projects with real-time budget monitoring.",
-        "Categorized Inventory management (Cement, Steel, Bricks).",
-        "Secure Digital Document Storage for Blueprints & Permits.",
-        "Professional Dashboard for high-level project overview."
-      ],
-      tags: ["Flutter", "Node.js", "MongoDB", "BLoC", "Dio"],
-      screens: ["/first.png", "/second.png", "/third.png", "/fourth.png"],
-      is3D: false
-    },
-    {
-      title: "Cooky – Recipe App",
-      repo: "https://github.com/Sreejesh75/Recipe_app.git",
-      description: [
-        "Animated Onboarding flow with premium Lottie animations.",
-        "Daily Meal recommendations with interactive zoom effects.",
-        "Live integration with TheMealDB REST API for global recipes.",
-        "State Management via Provider for reactive UI updates."
-      ],
-      tags: ["Flutter 3.x", "Provider", "Lottie", "REST API", "State Management"],
-      screens: ["/recipe.png", "/recipe.png", "/recipe.png"]
-    },
-    {
-      title: "UPI QR Scanner & Gen",
-      repo: "https://github.com/Sreejesh75/qr_scanner_app.git",
-      description: [
-        "High-performance QR scanning with instant data extraction.",
-        "Custom UPI QR code generation for personalized payments.",
-        "Separation of concerns using Clean Architecture principles.",
-        "Local data persistence using Shared Preferences."
-      ],
-      tags: ["Flutter", "Riverpod", "Clean Architecture", "Mobile Scanner", "Shared Prefs"],
-      screens: ["/qr.png", "/qr.png", "/qr.png"]
-    }
-  ];
+
 
   useEffect(() => {
+    // Parallax logic optimized using requestAnimationFrame
+    let requestId: number;
     const handleMouseMove = (e: MouseEvent) => {
-      // Direct DOM updates to avoid React re-renders on every pixel move
-      const heroContent = document.querySelector('.hero-content') as HTMLElement | null;
-      if (heroContent) {
-        heroContent.style.transform = `translate(${(e.clientX / window.innerWidth - 0.5) * 20}px, ${(e.clientY / window.innerHeight - 0.5) * 20}px)`;
-      }
-
-      const customCursor = document.querySelector('.custom-cursor') as HTMLElement | null;
-      if (customCursor) {
-        customCursor.style.left = `${e.clientX}px`;
-        customCursor.style.top = `${e.clientY}px`;
-      }
-
-      const cursorDot = document.querySelector('.cursor-dot') as HTMLElement | null;
-      if (cursorDot) {
-        cursorDot.style.left = `${e.clientX}px`;
-        cursorDot.style.top = `${e.clientY}px`;
-      }
-    };
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const customCursor = document.querySelector('.custom-cursor') as HTMLElement | null;
-      if (customCursor) {
-        if (target.closest('a, button, .project-card, .glass-card, .hero-name')) {
-          customCursor.classList.add('hover');
-        } else {
-          customCursor.classList.remove('hover');
+      if (requestId) cancelAnimationFrame(requestId);
+      requestId = requestAnimationFrame(() => {
+        const heroContent = document.querySelector('.hero-content') as HTMLElement | null;
+        if (heroContent) {
+          // Reduced intensity of transform to make it smoother
+          const x = (e.clientX / window.innerWidth - 0.5) * 15;
+          const y = (e.clientY / window.innerHeight - 0.5) * 15;
+          heroContent.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
         }
-      }
+      });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     // Escape Key to close Modal
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSelectedProject(null);
-      }
+      if (e.key === 'Escape') setSelectedProject(null);
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Scroll Progress Bar
-    const handleScroll = () => {
-      const scrollPx = document.documentElement.scrollTop;
-      const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollProgressElement = document.querySelector('.scroll-progress-bar') as HTMLElement | null;
-      if (scrollProgressElement) {
-        scrollProgressElement.style.transform = `scaleX(${scrollPx / winHeightPx})`;
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-
-    // Scroll Reveal Logic
+    // Scroll Reveal Logic using Intersection Observer
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
+          observer.unobserve(entry.target); // Unobserve after animating once for performance
         }
       });
     }, { threshold: 0.1 });
 
     reveals.forEach(reveal => observer.observe(reveal));
 
-    // Screen cycling for Apps
-    const screenInterval = setInterval(() => {
-      setCookyScreen((prev) => prev + 1);
-    }, 3000);
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('scroll', handleScroll);
-      reveals.forEach(reveal => observer.unobserve(reveal));
-      clearInterval(screenInterval);
+      observer.disconnect();
+      if (requestId) cancelAnimationFrame(requestId);
     };
   }, []);
 
+  // Isolate the interval for the modal screens
+  useEffect(() => {
+    let screenInterval: any;
+    if (selectedProject !== null) {
+      screenInterval = setInterval(() => {
+        setCookyScreen((prev) => prev + 1);
+      }, 3000);
+    }
+    return () => clearInterval(screenInterval);
+  }, [selectedProject]);
+
   return (
     <div className="portfolio">
-      <div className="scroll-progress-bar" style={{ transform: `scaleX(0)` }}></div>
-
-      {/* Glowing Diamond */}
-      <div className="diamond-container">
-        <div className="glowing-diamond"></div>
-        <div className="glowing-diamond-shadow"></div>
-      </div>
-
-      <div
-        className="custom-cursor"
-        style={{ left: `20px`, top: `20px` }}
-      ></div>
-      <div
-        className="cursor-dot"
-        style={{ left: `20px`, top: `20px` }}
-      ></div>
-
+      {/* Removed heavy custom cursor elements to improve rendering performance */}
       {/* Navigation Bar */}
       <nav className="glass-nav">
         <div className="nav-container">
@@ -212,7 +170,7 @@ function App() {
           style={{
             position: 'relative',
             zIndex: 1,
-            transform: `translate(0px, 0px)`,
+            transform: 'translate(0px, 0px)',
             transition: 'transform 0.1s ease-out'
           }}
         >

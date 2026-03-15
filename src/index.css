@@ -28,14 +28,24 @@ html {
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-dark);
-  background-image: url('./assets/full-bg.png');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
   color: var(--text-main);
   overflow-x: hidden;
   line-height: 1.6;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./assets/full-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  will-change: transform;
 }
 
 body::before {
@@ -43,11 +53,12 @@ body::before {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(10, 10, 12, 0.7);
   /* Dark overlay for readability */
   z-index: -1;
+  will-change: transform;
 }
 
 h1,
@@ -214,57 +225,7 @@ p strong {
   box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
 }
 
-.floating-elements {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-}
 
-.float-item {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.2;
-  animation: float 20s infinite alternate;
-}
-
-.item-1 {
-  width: 400px;
-  height: 400px;
-  background: var(--primary);
-  top: -100px;
-  left: -100px;
-}
-
-.item-2 {
-  width: 300px;
-  height: 300px;
-  background: var(--secondary);
-  bottom: -100px;
-  right: -100px;
-}
-
-.item-3 {
-  width: 250px;
-  height: 250px;
-  background: #6366f1;
-  top: 40%;
-  left: 50%;
-}
-
-@keyframes float {
-  from {
-    transform: translate(0, 0) rotate(0deg);
-  }
-
-  to {
-    transform: translate(100px, 100px) rotate(360deg);
-  }
-}
 
 @media (max-width: 768px) {
   .hero-name {
