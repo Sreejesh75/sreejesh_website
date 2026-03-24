@@ -16,6 +16,20 @@ const projects = [
     is3D: false
   },
   {
+    title: "Found You AI",
+    repo: "https://github.com/Sreejesh75/fount_you_ai.git",
+    description: [
+      "Enterprise attendance system using AI Face Detection (Google ML Kit).",
+      "Live Analytics Dashboard with fl_chart for weekly attendance trends.",
+      "Automated Daily Wage tracking and worker lifecycle management.",
+      "Professional reports with real-time analytics and audit logs.",
+      "Secure production backend using Node.js, MongoDB, and JWT Auth."
+    ],
+    tags: ["Flutter", "Node.js", "MongoDB", "ML Kit", "BLoC", "JWT", "Cloudinary", "fl_chart"],
+    screens: ["/pic 1.png", "/pic 2.png", "/pic 3.png"],
+    is3D: false
+  },
+  {
     title: "Cooky – Recipe App",
     repo: "https://github.com/Sreejesh75/Recipe_app.git",
     description: [
@@ -26,18 +40,6 @@ const projects = [
     ],
     tags: ["Flutter 3.x", "Provider", "Lottie", "REST API", "State Management"],
     screens: ["/recipe.png", "/recipe.png", "/recipe.png"]
-  },
-  {
-    title: "UPI QR Scanner & Gen",
-    repo: "https://github.com/Sreejesh75/qr_scanner_app.git",
-    description: [
-      "High-performance QR scanning with instant data extraction.",
-      "Custom UPI QR code generation for personalized payments.",
-      "Separation of concerns using Clean Architecture principles.",
-      "Local data persistence using Shared Preferences."
-    ],
-    tags: ["Flutter", "Riverpod", "Clean Architecture", "Mobile Scanner", "Shared Prefs"],
-    screens: ["/qr.png", "/qr.png", "/qr.png"]
   }
 ];
 
