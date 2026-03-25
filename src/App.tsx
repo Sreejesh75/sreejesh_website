@@ -45,6 +45,7 @@ const projects = [
 
 function App() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [showResume, setShowResume] = useState(false);
   const [cookyScreen, setCookyScreen] = useState(0);
 
 
@@ -68,7 +69,10 @@ function App() {
 
     // Escape Key to close Modal
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedProject(null);
+      if (e.key === 'Escape') {
+        setSelectedProject(null);
+        setShowResume(false);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
 
@@ -181,6 +185,10 @@ function App() {
             <p className="hero-tagline">Software Engineer building high-performance mobile and web solutions with Flutter & Node.js.</p>
             <div className="cta-buttons">
               <a href="#projects" className="btn btn-primary">View Projects</a>
+              <button onClick={() => setShowResume(true)} className="btn btn-secondary resume-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginRight: '8px'}}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Resume
+              </button>
               <a href="#contact" className="btn btn-secondary">Hire Me</a>
             </div>
           </div>
@@ -433,6 +441,37 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* Resume Modal */}
+      {showResume && (
+        <div className="resume-overlay" onClick={() => setShowResume(false)}>
+          <div className="resume-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="resume-header">
+              <h2 className="title-gradient">Professional Resume</h2>
+              <div className="resume-controls">
+                <a href="/Sreejesh_O_S_Flutter(1).pdf" download className="resume-control-btn" title="Download Resume">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </a>
+                <button className="resume-control-btn close-btn" onClick={() => setShowResume(false)}>
+                  &times;
+                </button>
+              </div>
+            </div>
+            <div className="resume-body">
+              <iframe 
+                src="/Sreejesh_O_S_Flutter(1).pdf#toolbar=0" 
+                title="Resume Viewer"
+                className="resume-iframe"
+              >
+                <p>Your browser does not support iframes. <a href="/Sreejesh_O_S_Flutter(1).pdf">Click here to view the PDF.</a></p>
+              </iframe>
+            </div>
+            <div className="resume-footer">
+              <span>Press ESC to close</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <footer style={{ textAlign: 'center', padding: '40px 0', borderTop: '1px solid var(--glass-border)', marginTop: '50px' }}>
         <p style={{ color: 'var(--text-muted)' }}>&copy; {new Date().getFullYear()} Sreejesh OS. Designed for Excellence.</p>

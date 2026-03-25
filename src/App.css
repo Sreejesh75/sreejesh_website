@@ -843,3 +843,119 @@
     padding: 60px 20px;
   }
 }
+/* Resume Modal Styles */
+.resume-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.resume-modal {
+  width: 90%;
+  max-width: 1000px;
+  height: 90vh;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.resume-header {
+  padding: 20px 30px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.resume-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.resume-control-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.resume-control-btn:hover {
+  background: var(--primary);
+  color: #000;
+  transform: scale(1.1);
+}
+
+.close-btn {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.resume-body {
+  flex: 1;
+  background: #f4f4f4;
+  position: relative;
+}
+
+.resume-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.resume-footer {
+  padding: 10px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.resume-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  .resume-modal {
+    width: 95%;
+    height: 85vh;
+  }
+  .resume-header {
+    padding: 15px;
+  }
+  .resume-header h2 {
+    font-size: 1.2rem;
+  }
+}
